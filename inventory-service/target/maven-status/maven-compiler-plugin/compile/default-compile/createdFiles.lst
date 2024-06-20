@@ -1,0 +1,7 @@
+com/springbootpractice/inventoryservice/service/InventoryServiceImpl.class
+com/springbootpractice/inventoryservice/InventoryServiceApplication.class
+com/springbootpractice/inventoryservice/model/Inventory.class
+com/springbootpractice/inventoryservice/service/InventoryService.class
+com/springbootpractice/inventoryservice/controller/InventoryController.class
+com/springbootpractice/inventoryservice/repository/InventoryRepository.class
+com/springbootpractice/inventoryservice/model/Inventory$InventoryBuilder.class
