@@ -1,9 +1,0 @@
-/Users/kmbl286146/Documents/CC Repos/microservices-new/product-service/src/main/java/com/springbootpractice/productservice/dto/ProductResponse.java
-/Users/kmbl286146/Documents/CC Repos/microservices-new/product-service/src/main/java/com/springbootpractice/productservice/service/ProductServiceImpl.java
-/Users/kmbl286146/Documents/CC Repos/microservices-new/product-service/src/main/java/com/springbootpractice/productservice/dto/ProductRequest.java
-/Users/kmbl286146/Documents/CC Repos/microservices-new/product-service/src/main/java/com/springbootpractice/productservice/ProductServiceApplication.java
-/Users/kmbl286146/Documents/CC Repos/microservices-new/product-service/src/main/java/com/springbootpractice/productservice/mapper/ProductMapper.java
-/Users/kmbl286146/Documents/CC Repos/microservices-new/product-service/src/main/java/com/springbootpractice/productservice/service/IProductService.java
-/Users/kmbl286146/Documents/CC Repos/microservices-new/product-service/src/main/java/com/springbootpractice/productservice/repository/ProductRepository.java
-/Users/kmbl286146/Documents/CC Repos/microservices-new/product-service/src/main/java/com/springbootpractice/productservice/model/Product.java
-/Users/kmbl286146/Documents/CC Repos/microservices-new/product-service/src/main/java/com/springbootpractice/productservice/controller/ProductController.java
