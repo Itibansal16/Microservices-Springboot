@@ -21,7 +21,13 @@ public class OrderController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public String placeOrder(@RequestBody OrderRequest orderRequest){
-    iOrderService.placeOrder(orderRequest);
-    return "placed successfully";
+    try {
+      iOrderService.placeOrder(orderRequest);
+      return "placed successfully";
+    } catch(IllegalArgumentException e) {
+      return e.getMessage();
+    } catch (Exception e) {
+      return e.getMessage();
+    }
   }
 }
