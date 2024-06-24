@@ -21,7 +21,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class OrderServiceImpl implements IOrderService{
 
   private final IOrderRepository iOrderRepository;
-  private final WebClient webClient;
+  private final WebClient.Builder webClientBuilder;
 
   @Override
   public void placeOrder(OrderRequest orderRequest) {
@@ -30,8 +30,8 @@ public class OrderServiceImpl implements IOrderService{
     List<String> skuCodes = order.getOrderLineItemsList().stream().map(OrderLineitems::getSkuCode).toList();
 
     //Before proceeding, check if the product is in stock via Inventory microservice
-    InventoryResponse[] inventoryResponseArray = webClient.get()
-        .uri("http://localhost:8082/api/inventory", uriBuilder ->
+    InventoryResponse[] inventoryResponseArray = webClientBuilder.build().get()
+        .uri("http://inventory-service/api/inventory", uriBuilder ->
           uriBuilder.queryParam("skuCode", skuCodes).build()
         )
             .retrieve()
