@@ -26,7 +26,7 @@ public class OrderServiceImpl implements IOrderService{
   private final WebClient.Builder webClientBuilder;
 
   @Override
-  public void placeOrder(OrderRequest orderRequest) {
+  public String placeOrder(OrderRequest orderRequest) {
     log.info("inside Order Service");
     Order order = buildOrderModel(orderRequest);
 
@@ -45,6 +45,7 @@ public class OrderServiceImpl implements IOrderService{
         InventoryResponse::isInStock);
     if(areAllProductsInStock) {
       iOrderRepository.save(order);
+      return "Order Placed Successfully";
     } else {
       throw new IllegalArgumentException("Product out of Stock, Please try later");
     }

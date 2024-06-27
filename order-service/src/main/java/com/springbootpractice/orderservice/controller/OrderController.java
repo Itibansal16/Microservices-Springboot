@@ -3,6 +3,9 @@ package com.springbootpractice.orderservice.controller;
 import com.springbootpractice.orderservice.dto.OrderRequest;
 import com.springbootpractice.orderservice.service.IOrderService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
+import java.util.concurrent.CompletableFuture;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,18 +27,16 @@ public class OrderController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   @CircuitBreaker(name = "inventory", fallbackMethod = "fallBack")
-  public String placeOrder(@RequestBody OrderRequest orderRequest){
+  @Retry(name = "inventory")
+  @TimeLimiter(name = "inventory")
+  public CompletableFuture<String> placeOrder(@RequestBody OrderRequest orderRequest){
     log.info("Order Place received at Controller");
-    try {
       log.info("calling OrderService");
       iOrderService.placeOrder(orderRequest);
-      return "placed successfully";
-    } catch(IllegalArgumentException e) {
-      return e.getMessage();
-    }
+    return CompletableFuture.supplyAsync(() -> iOrderService.placeOrder(orderRequest));
   }
 
-  public String fallBack(OrderRequest orderRequest, Exception ex){
-    return "Called fallback as downstream is down" + ex.getMessage();
+  public CompletableFuture<String> fallBack(OrderRequest orderRequest, Exception ex){
+    return CompletableFuture.supplyAsync(() -> "Called fallback as downstream is down" + ex.getMessage());
   }
 }
