@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -18,6 +19,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class OrderServiceImpl implements IOrderService{
 
   private final IOrderRepository iOrderRepository;
@@ -25,10 +27,12 @@ public class OrderServiceImpl implements IOrderService{
 
   @Override
   public void placeOrder(OrderRequest orderRequest) {
+    log.info("inside Order Service");
     Order order = buildOrderModel(orderRequest);
 
     List<String> skuCodes = order.getOrderLineItemsList().stream().map(OrderLineitems::getSkuCode).toList();
 
+    log.info("Checking if order items are in stock by calling Inventory Service");
     //Before proceeding, check if the product is in stock via Inventory microservice
     InventoryResponse[] inventoryResponseArray = webClientBuilder.build().get()
         .uri("http://inventory-service/api/inventory", uriBuilder ->
