@@ -31,8 +31,7 @@ public class OrderController {
   @TimeLimiter(name = "inventory")
   public CompletableFuture<String> placeOrder(@RequestBody OrderRequest orderRequest){
     log.info("Order Place received at Controller");
-      log.info("calling OrderService");
-      iOrderService.placeOrder(orderRequest);
+    log.info("calling OrderService");
     return CompletableFuture.supplyAsync(() -> iOrderService.placeOrder(orderRequest));
   }
 

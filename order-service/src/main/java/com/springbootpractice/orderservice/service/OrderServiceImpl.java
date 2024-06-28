@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -24,6 +25,7 @@ public class OrderServiceImpl implements IOrderService{
 
   private final IOrderRepository iOrderRepository;
   private final WebClient.Builder webClientBuilder;
+  private final KafkaTemplate<String, String> kafkaTemplate;
 
   @Override
   public String placeOrder(OrderRequest orderRequest) {
@@ -45,6 +47,7 @@ public class OrderServiceImpl implements IOrderService{
         InventoryResponse::isInStock);
     if(areAllProductsInStock) {
       iOrderRepository.save(order);
+      kafkaTemplate.send("inventory-topic", "Order placed with order-id "+order.getOrderNumber());
       return "Order Placed Successfully";
     } else {
       throw new IllegalArgumentException("Product out of Stock, Please try later");
